@@ -1,25 +1,22 @@
 {
   "modes": {
+    "plan": {
+      "name": "Plan",
+      "description": "Analysis and planning only - no file changes",
+      "blockedTools": ["write", "edit"],
+      "systemPromptAddendum": "You are in PLAN mode. Analyze, research, and plan only. Do not make file changes."
+    },
+    "build": {
+      "name": "Build",
+      "description": "Implementation mode - can make changes",
+      "blockedTools": [],
+      "systemPromptAddendum": "You are in BUILD mode. Implement the plan. Make necessary file changes."
+    },
     "review": {
       "name": "Review",
-      "icon": "👁",
       "description": "Code review mode - read and analyze only",
       "blockedTools": ["write", "edit", "bash"],
       "systemPromptAddendum": "You are in REVIEW mode. Analyze code for bugs, security issues, and improvements. Do not make changes."
-    },
-    "safe": {
-      "name": "Safe",
-      "icon": "🛡",
-      "description": "Safe mode - read-only tools only",
-      "blockedTools": ["write", "edit", "bash"],
-      "systemPromptAddendum": "You are in SAFE mode. Only use read, grep, find, and ls tools. No modifications allowed."
-    },
-    "debug": {
-      "name": "Debug",
-      "icon": "🐛",
-      "description": "Debug mode - can read and run diagnostics",
-      "blockedTools": ["write", "edit"],
-      "systemPromptAddendum": "You are in DEBUG mode. Investigate issues using read and bash tools. Do not modify code yet."
     }
   }
 }
