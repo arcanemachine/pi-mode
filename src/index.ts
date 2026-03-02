@@ -143,6 +143,10 @@ export default function (pi: ExtensionAPI) {
     },
   });
 
+  function getAvailableModesList(): string {
+    return Object.keys(MODES).join(", ");
+  }
+
   pi.on("before_agent_start", async (event, ctx) => {
     if (currentMode) {
       const config = MODES[currentMode];
@@ -155,12 +159,16 @@ export default function (pi: ExtensionAPI) {
         toolInfo = `\n\nBLOCKED TOOLS: ${config.blockedTools.join(", ")}`;
       }
 
-      const modeSwitchInfo = `\n\nCRITICAL: You CANNOT switch modes yourself. You MUST ask the user to change the mode. Do not attempt to call any tool to change modes - it will fail.`;
+      const availableModes = getAvailableModesList();
+      const modeListInfo = `\n\nAVAILABLE MODES: ${availableModes}`;
+
+      const modeSwitchInfo = `\n\nCRITICAL: You CANNOT switch modes yourself. You MUST ask the user to change the mode.`;
 
       event.systemPrompt +=
         "\n\n" +
         (config.extraSystemPrompt || `You are in ${displayName} mode.`) +
         toolInfo +
+        modeListInfo +
         modeSwitchInfo;
     }
   });
