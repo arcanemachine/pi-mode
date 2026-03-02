@@ -59,10 +59,15 @@ export default function (pi: ExtensionAPI) {
 
   let currentMode: Mode = null;
 
+  function getModeName(config: ModeConfig, key: string): string {
+    return config.name || key.charAt(0).toUpperCase() + key.slice(1);
+  }
+
   function updateStatus(ctx: ExtensionContext) {
     if (currentMode) {
       const config = MODES[currentMode];
-      ctx.ui.setStatus("mode", `Mode enabled: ${config.name}`);
+      const displayName = getModeName(config, currentMode);
+      ctx.ui.setStatus("mode", `Mode enabled: ${displayName}`);
     } else {
       ctx.ui.setStatus("mode", "");
     }
@@ -71,8 +76,9 @@ export default function (pi: ExtensionAPI) {
   function showModeInfo(ctx: ExtensionContext) {
     if (currentMode) {
       const config = MODES[currentMode];
+      const displayName = getModeName(config, currentMode);
       ctx.ui.notify(
-        `Current mode: ${config.name}\n${config.description}`,
+        `Current mode: ${displayName}\n${config.description}`,
         "info",
       );
     } else {
@@ -124,8 +130,9 @@ export default function (pi: ExtensionAPI) {
         currentMode = arg;
         updateStatus(ctx);
         const config = MODES[currentMode];
+        const displayName = getModeName(config, currentMode);
         ctx.ui.notify(
-          `Switched to ${config.name} Mode\n${config.description}`,
+          `Switched to ${displayName} Mode\n${config.description}`,
           "success",
         );
         return;
@@ -139,19 +146,23 @@ export default function (pi: ExtensionAPI) {
   pi.on("before_agent_start", async (event, ctx) => {
     if (currentMode) {
       const config = MODES[currentMode];
-      event.systemPrompt += "\n\n" + config.systemPromptAddendum;
+      const displayName = getModeName(config, currentMode);
+      event.systemPrompt +=
+        "\n\n" +
+        (config.systemPromptAddendum || `You are in ${displayName} mode.`);
     }
   });
 
   pi.on("tool_call", async (event, ctx) => {
     if (currentMode) {
       const config = MODES[currentMode];
+      const displayName = getModeName(config, currentMode);
 
       // blockedTools: block these, allow everything else
       if (config.blockedTools?.includes(event.toolName)) {
         return {
           block: true,
-          reason: `The ${event.toolName} tool is not allowed in ${config.name} mode.`,
+          reason: `The ${event.toolName} tool is not allowed in ${displayName} mode.`,
         };
       }
 
@@ -162,7 +173,7 @@ export default function (pi: ExtensionAPI) {
       ) {
         return {
           block: true,
-          reason: `The ${event.toolName} tool is not allowed in ${config.name} mode.`,
+          reason: `The ${event.toolName} tool is not allowed in ${displayName} mode.`,
         };
       }
     }
