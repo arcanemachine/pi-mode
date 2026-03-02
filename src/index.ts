@@ -11,7 +11,8 @@ type Mode = string | null;
 interface ModeConfig {
   name: string;
   description: string;
-  blockedTools: string[];
+  blockedTools?: string[];
+  allowedTools?: string[];
   systemPromptAddendum: string;
 }
 
@@ -26,6 +27,20 @@ function loadModes(): Record<string, ModeConfig> {
       const content = readFileSync(configPath, "utf-8");
       const parsed = JSON.parse(content);
       if (parsed.modes && typeof parsed.modes === "object") {
+        // Validate modes
+        for (const [key, config] of Object.entries(parsed.modes)) {
+          const modeConfig = config as ModeConfig;
+          if (modeConfig.blockedTools && modeConfig.allowedTools) {
+            throw new Error(
+              `Mode "${key}" cannot have both blockedTools and allowedTools. Use one or the other.`,
+            );
+          }
+          if (!modeConfig.blockedTools && !modeConfig.allowedTools) {
+            throw new Error(
+              `Mode "${key}" must have either blockedTools or allowedTools.`,
+            );
+          }
+        }
         return parsed.modes;
       }
     } catch {
@@ -128,10 +143,23 @@ export default function (pi: ExtensionAPI) {
   pi.on("tool_call", async (event, ctx) => {
     if (currentMode) {
       const config = MODES[currentMode];
-      if (config.blockedTools.includes(event.toolName)) {
+
+      // blockedTools: block these, allow everything else
+      if (config.blockedTools?.includes(event.toolName)) {
         return {
           block: true,
-          reason: `In ${config.name} mode. Switch to another mode to make changes.`,
+          reason: `In ${config.name} mode. Switch to another mode to use ${event.toolName}.`,
+        };
+      }
+
+      // allowedTools: allow these, block everything else
+      if (
+        config.allowedTools &&
+        !config.allowedTools.includes(event.toolName)
+      ) {
+        return {
+          block: true,
+          reason: `In ${config.name} mode. ${event.toolName} is not allowed. Switch to another mode.`,
         };
       }
     }
