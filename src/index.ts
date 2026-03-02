@@ -151,7 +151,7 @@ export default function (pi: ExtensionAPI) {
       if (config.blockedTools?.includes(event.toolName)) {
         return {
           block: true,
-          reason: `In ${config.name} mode. Switch to another mode to use ${event.toolName}.`,
+          reason: `The ${event.toolName} tool is not allowed in ${config.name} mode.`,
         };
       }
 
@@ -162,7 +162,7 @@ export default function (pi: ExtensionAPI) {
       ) {
         return {
           block: true,
-          reason: `In ${config.name} mode. ${event.toolName} is not allowed. Switch to another mode.`,
+          reason: `The ${event.toolName} tool is not allowed in ${config.name} mode.`,
         };
       }
     }
