@@ -71,6 +71,9 @@ Tools added by extensions are also controlled by `blockedTools` and `allowedTool
 
 ### Example Configuration
 
+> [!WARNING]
+> If the agent has access to the `bash` tool, it can change the mode on its own!
+
 Add to your `.pi/settings.json` or `~/.pi/agent/settings.json`:
 
 ```json
@@ -95,9 +98,6 @@ Add to your `.pi/settings.json` or `~/.pi/agent/settings.json`:
   }
 }
 ```
-
-> [!WARNING]
-> If the agent has access to the `bash` tool, it can change the mode on its own!
 
 ### Mode Configuration Options
 
@@ -124,7 +124,7 @@ Add to your `.pi/settings.json` or `~/.pi/agent/settings.json`:
 The current mode appears in the pi footer:
 
 ```
-Mode enabled: Plan
+Mode enabled: plan
 ```
 
 ## Development

@@ -54,13 +54,13 @@ function loadModes(): Record<string, ModeConfig> {
   return {};
 }
 
-export default function(pi: ExtensionAPI) {
+export default function (pi: ExtensionAPI) {
   const MODES = loadModes();
 
   let currentMode: Mode = null;
 
   function getModeName(config: ModeConfig, key: string): string {
-    return config.name || key.charAt(0).toUpperCase() + key.slice(1);
+    return config.name || key;
   }
 
   function updateStatus(ctx: ExtensionContext) {
