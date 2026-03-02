@@ -72,7 +72,7 @@ The current mode appears in the pi footer status line:
 
 ## Development
 
-```
+```bash
 cd /workspace/projects/pi-mode
 pi -e ./src/index.ts
 ```
