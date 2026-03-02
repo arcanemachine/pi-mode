@@ -60,6 +60,19 @@ Each mode must specify **either** `blockedTools` **or** `allowedTools` (mutually
   - Use for: "Restrict to specific tools only"
   - Example: Safe mode that only allows `read`, `grep`, `find`
 
+### Custom Tools
+
+Tools added by extensions (e.g., `spawn_subagent`, `deploy`, custom tools from pi packages) are also controlled by `blockedTools` and `allowedTools`:
+
+- With `blockedTools`: Custom tools are allowed unless explicitly listed
+- With `allowedTools`: Custom tools are blocked unless explicitly listed
+
+Use `allowedTools` when you want to restrict to only core tools and block all custom extensions.
+
+### Built-in Tools
+
+Pi's built-in tools are: `read`, `bash`, `edit`, `write`, `grep`, `find`, `ls`
+
 ### Example Configuration
 
 ```json
@@ -73,9 +86,15 @@ Each mode must specify **either** `blockedTools` **or** `allowedTools` (mutually
     },
     "safe": {
       "name": "Safe",
-      "description": "Safe mode - read-only tools only",
-      "allowedTools": ["read", "grep", "find", "ls"],
-      "systemPromptAddendum": "You are in SAFE mode. Only read files and search. No modifications or command execution."
+      "description": "Safe mode - no bash commands or file modifications",
+      "blockedTools": ["write", "edit", "bash"],
+      "systemPromptAddendum": "You are in SAFE mode. Read and search files only. No command execution or modifications."
+    },
+    "restricted": {
+      "name": "Restricted",
+      "description": "Restricted mode - core tools only, no custom extensions",
+      "allowedTools": ["read", "bash", "edit", "write"],
+      "systemPromptAddendum": "You are in RESTRICTED mode. Only core tools are available. Custom extension tools are blocked."
     }
   }
 }

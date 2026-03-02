@@ -8,9 +8,15 @@
     },
     "safe": {
       "name": "Safe",
-      "description": "Safe mode - read-only tools only",
-      "allowedTools": ["read", "grep", "find", "ls"],
-      "systemPromptAddendum": "You are in SAFE mode. Only read files and search. No modifications or command execution."
+      "description": "Safe mode - no bash commands or file modifications",
+      "blockedTools": ["write", "edit", "bash"],
+      "systemPromptAddendum": "You are in SAFE mode. Read and search files only. No command execution or modifications."
+    },
+    "restricted": {
+      "name": "Restricted",
+      "description": "Restricted mode - core tools only, no custom extensions",
+      "allowedTools": ["read", "bash", "edit", "write"],
+      "systemPromptAddendum": "You are in RESTRICTED mode. Only core tools are available. Custom extension tools are blocked."
     }
   }
 }
