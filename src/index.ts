@@ -13,7 +13,7 @@ interface ModeConfig {
   description: string;
   blockedTools?: string[];
   allowedTools?: string[];
-  systemPromptAddendum: string;
+  extraSystemPrompt: string;
 }
 
 interface Settings {
@@ -149,7 +149,7 @@ export default function (pi: ExtensionAPI) {
       const displayName = getModeName(config, currentMode);
       event.systemPrompt +=
         "\n\n" +
-        (config.systemPromptAddendum || `You are in ${displayName} mode.`);
+        (config.extraSystemPrompt || `You are in ${displayName} mode.`);
     }
   });
 
