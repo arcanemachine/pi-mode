@@ -202,4 +202,11 @@ export default function (pi: ExtensionAPI) {
   pi.on("session_start", async (_event, ctx) => {
     updateStatus(ctx);
   });
+
+  pi.on("session_switch", async (event, ctx) => {
+    if (event.reason === "new") {
+      currentMode = null;
+      updateStatus(ctx);
+    }
+  });
 }
