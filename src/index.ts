@@ -147,9 +147,18 @@ export default function (pi: ExtensionAPI) {
     if (currentMode) {
       const config = MODES[currentMode];
       const displayName = getModeName(config, currentMode);
+
+      let toolInfo = "";
+      if (config.allowedTools) {
+        toolInfo = `\nAllowed tools: ${config.allowedTools.join(", ")}`;
+      } else if (config.blockedTools) {
+        toolInfo = `\nBlocked tools: ${config.blockedTools.join(", ")}`;
+      }
+
       event.systemPrompt +=
         "\n\n" +
-        (config.extraSystemPrompt || `You are in ${displayName} mode.`);
+        (config.extraSystemPrompt || `You are in ${displayName} mode.`) +
+        toolInfo;
     }
   });
 
