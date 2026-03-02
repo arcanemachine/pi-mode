@@ -78,21 +78,21 @@ Add to your `.pi/settings.json` or `~/.pi/agent/settings.json`:
   "modes": {
     "plan": {
       "name": "Plan",
-      "description": "Analysis and planning only - no file changes",
-      "blockedTools": ["write", "edit"],
+      "description": "Analysis and planning only - no access to write/edit tools",
+      "allowedTools": ["read", "bash"],
       "systemPromptAddendum": "You are in PLAN mode. Analyze, research, and plan only. Do not make file changes."
     },
     "safe": {
       "name": "Safe",
       "description": "Safe mode - no bash commands or file modifications",
       "blockedTools": ["write", "edit", "bash"],
-      "systemPromptAddendum": "You are in SAFE mode. Read and search files only. No command execution or modifications."
+      "systemPromptAddendum": "You are in SAFE mode. You may not write or edit files. No command execution or modifications."
     },
-    "core": {
-      "name": "Core",
-      "description": "Pi default tools only, no custom extensions",
-      "allowedTools": ["read", "bash", "edit", "write", "grep", "find", "ls"],
-      "systemPromptAddendum": "You are in CORE mode. Only pi default tools are available. Custom extension tools are blocked."
+    "custom": {
+      "name": "Custom",
+      "description": "You can use custom tools that have been added by the user",
+      "allowedTools": ["read", "bash", "research"],
+      "systemPromptAddendum": "You are in CUSTOM mode. Some default pi tools and some custom user tools are available."
     }
   }
 }
