@@ -39,14 +39,16 @@ ln -s /workspace/projects/pi-mode/src ~/.pi/agent/extensions/pi-mode
 
 ## Configuration
 
-Pi-mode requires configuration. Create a `modes.json` file to define your modes.
+Pi-mode requires configuration. Add a `modes` key to your pi `settings.json`.
 
 ### Configuration File Locations
 
-Pi-mode looks for configuration in these locations (first match wins):
+Pi-mode looks for the `modes` setting in these locations (first match wins):
 
-1. `.pi/modes.json` (project-specific)
-2. `~/.pi/agent/modes.json` (global)
+1. `.pi/settings.json` (project-specific)
+2. `~/.pi/agent/settings.json` (global)
+
+You can also edit settings via the `/settings` command in pi.
 
 ### Tool Control Options
 
@@ -68,6 +70,8 @@ Tools added by extensions are also controlled by `blockedTools` and `allowedTool
 - With `allowedTools`: Custom tools are blocked unless explicitly listed
 
 ### Example Configuration
+
+Add to your `.pi/settings.json` or `~/.pi/agent/settings.json`:
 
 ```json
 {

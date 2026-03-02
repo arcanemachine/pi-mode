@@ -16,26 +16,29 @@ interface ModeConfig {
   systemPromptAddendum: string;
 }
 
+interface Settings {
+  modes?: Record<string, ModeConfig>;
+}
+
 function loadModes(): Record<string, ModeConfig> {
   const configPaths = [
-    join(process.cwd(), ".pi", "modes.json"),
-    join(homedir(), ".pi", "agent", "modes.json"),
+    join(process.cwd(), ".pi", "settings.json"),
+    join(homedir(), ".pi", "agent", "settings.json"),
   ];
 
   for (const configPath of configPaths) {
     try {
       const content = readFileSync(configPath, "utf-8");
-      const parsed = JSON.parse(content);
+      const parsed: Settings = JSON.parse(content);
       if (parsed.modes && typeof parsed.modes === "object") {
         // Validate modes
         for (const [key, config] of Object.entries(parsed.modes)) {
-          const modeConfig = config as ModeConfig;
-          if (modeConfig.blockedTools && modeConfig.allowedTools) {
+          if (config.blockedTools && config.allowedTools) {
             throw new Error(
               `Mode "${key}" cannot have both blockedTools and allowedTools. Use one or the other.`,
             );
           }
-          if (!modeConfig.blockedTools && !modeConfig.allowedTools) {
+          if (!config.blockedTools && !config.allowedTools) {
             throw new Error(
               `Mode "${key}" must have either blockedTools or allowedTools.`,
             );
@@ -79,7 +82,7 @@ export default function (pi: ExtensionAPI) {
     const modeKeys = Object.keys(MODES);
     if (modeKeys.length === 0) {
       ctx.ui.notify(
-        "No modes configured. Create .pi/modes.json to define modes.",
+        "No modes configured. Add modes to .pi/settings.json or ~/.pi/agent/settings.json",
         "warning",
       );
       return;
