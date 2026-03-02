@@ -1,0 +1,17 @@
+{
+  "name": "pi-mode",
+  "version": "1.0.0",
+  "description": "Mode extension for pi - plan and build modes",
+  "keywords": [
+    "pi-package"
+  ],
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.3",
+    "typescript": "^5.9.3"
+  }
+}

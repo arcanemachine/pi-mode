@@ -25,7 +25,7 @@ pi-mode/
 ├── src/
 │   └── index.ts          # Extension entry point
 ├── package.json          # Package manifest with pi config
-└── AGENTS.md            # This file
+└── AGENTS.md             # This file
 ```
 
 ## Implementation Notes
