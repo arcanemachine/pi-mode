@@ -155,7 +155,7 @@ export default function (pi: ExtensionAPI) {
         toolInfo = `\n\nBLOCKED TOOLS: ${config.blockedTools.join(", ")}`;
       }
 
-      const modeSwitchInfo = `\n\nCRITICAL: You CANNOT switch modes yourself. You MUST ask the user to run "/mode <name>" or "/mode none". Do not attempt to call any tool to change modes - it will fail.`;
+      const modeSwitchInfo = `\n\nCRITICAL: You CANNOT switch modes yourself. You MUST ask the user to change the mode. Do not attempt to call any tool to change modes - it will fail.`;
 
       event.systemPrompt +=
         "\n\n" +
