@@ -5,7 +5,7 @@ A pi extension that adds configurable modes for structured development workflows
 ## Features
 
 - **Configurable modes** - Define your own modes via JSON configuration
-- **Tool blocking** - Block specific tools per mode (e.g., no edits in plan mode)
+- **Tool blocking** - Block specific tools or allow only specific tools per mode
 - **Visual status indicator** - Shows current mode in footer
 - **Mode-specific prompts** - Append instructions to system prompt per mode
 
@@ -48,6 +48,18 @@ Pi-mode looks for configuration in these locations (first match wins):
 1. `.pi/modes.json` (project-specific)
 2. `~/.pi/agent/modes.json` (global)
 
+### Tool Control Options
+
+Each mode must specify **either** `blockedTools` **or** `allowedTools` (mutually exclusive):
+
+- **`blockedTools`**: Block these tools, allow everything else
+  - Use for: "Allow most tools, just block a few"
+  - Example: Plan mode that blocks `write` and `edit` but allows `read`, `bash`, etc.
+
+- **`allowedTools`**: Allow only these tools, block everything else
+  - Use for: "Restrict to specific tools only"
+  - Example: Safe mode that only allows `read`, `grep`, `find`
+
 ### Example Configuration
 
 ```json
@@ -59,17 +71,11 @@ Pi-mode looks for configuration in these locations (first match wins):
       "blockedTools": ["write", "edit"],
       "systemPromptAddendum": "You are in PLAN mode. Analyze, research, and plan only. Do not make file changes."
     },
-    "build": {
-      "name": "Build",
-      "description": "Implementation mode - can make changes",
-      "blockedTools": [],
-      "systemPromptAddendum": "You are in BUILD mode. Implement the plan. Make necessary file changes."
-    },
-    "review": {
-      "name": "Review",
-      "description": "Code review mode - read and analyze only",
-      "blockedTools": ["write", "edit", "bash"],
-      "systemPromptAddendum": "You are in REVIEW mode. Analyze code for bugs, security issues, and improvements. Do not make changes."
+    "safe": {
+      "name": "Safe",
+      "description": "Safe mode - read-only tools only",
+      "allowedTools": ["read", "grep", "find", "ls"],
+      "systemPromptAddendum": "You are in SAFE mode. Only read files and search. No modifications or command execution."
     }
   }
 }
@@ -77,12 +83,15 @@ Pi-mode looks for configuration in these locations (first match wins):
 
 ### Mode Configuration Options
 
-| Field                  | Type     | Description                                              |
-| ---------------------- | -------- | -------------------------------------------------------- |
-| `name`                 | string   | Display name for the mode                                |
-| `description`          | string   | Short description shown in `/mode` list                  |
-| `blockedTools`         | string[] | Array of tool names to block (e.g., `["write", "edit"]`) |
-| `systemPromptAddendum` | string   | Text appended to system prompt when mode is active       |
+| Field                  | Type     | Required | Description                                        |
+| ---------------------- | -------- | -------- | -------------------------------------------------- |
+| `name`                 | string   | Yes      | Display name for the mode                          |
+| `description`          | string   | Yes      | Short description shown in `/mode` list            |
+| `blockedTools`         | string[] | One of   | Block these tools, allow all others                |
+| `allowedTools`         | string[] | One of   | Allow only these tools, block all others           |
+| `systemPromptAddendum` | string   | Yes      | Text appended to system prompt when mode is active |
+
+**Note:** Exactly one of `blockedTools` or `allowedTools` must be provided. An error is thrown if both or neither are specified.
 
 ## Usage
 
