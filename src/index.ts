@@ -10,33 +10,12 @@ type Mode = string | null;
 
 interface ModeConfig {
   name: string;
-  icon: string;
   description: string;
   blockedTools: string[];
   systemPromptAddendum: string;
 }
 
-// Default built-in modes
-const DEFAULT_MODES: Record<string, ModeConfig> = {
-  plan: {
-    name: "Plan",
-    icon: "🔍",
-    description: "Analysis and planning only - no file changes",
-    blockedTools: ["write", "edit"],
-    systemPromptAddendum:
-      "You are in PLAN mode. Analyze, research, and plan only. Do not make file changes. Suggest running '/mode build' when ready to implement.",
-  },
-  build: {
-    name: "Build",
-    icon: "🔨",
-    description: "Implementation mode - can make changes",
-    blockedTools: [],
-    systemPromptAddendum:
-      "You are in BUILD mode. Implement the plan. Make necessary file changes.",
-  },
-};
-
-function loadCustomModes(): Record<string, ModeConfig> {
+function loadModes(): Record<string, ModeConfig> {
   const configPaths = [
     join(process.cwd(), ".pi", "modes.json"),
     join(homedir(), ".pi", "agent", "modes.json"),
@@ -58,18 +37,14 @@ function loadCustomModes(): Record<string, ModeConfig> {
 }
 
 export default function (pi: ExtensionAPI) {
-  // Merge default modes with custom modes (custom takes precedence)
-  const MODES: Record<string, ModeConfig> = {
-    ...DEFAULT_MODES,
-    ...loadCustomModes(),
-  };
+  const MODES = loadModes();
 
   let currentMode: Mode = null;
 
   function updateStatus(ctx: ExtensionContext) {
     if (currentMode) {
       const config = MODES[currentMode];
-      ctx.ui.setStatus("mode", `${config.icon} ${config.name} Mode`);
+      ctx.ui.setStatus("mode", `${config.name} Mode`);
     } else {
       ctx.ui.setStatus("mode", "");
     }
@@ -79,11 +54,20 @@ export default function (pi: ExtensionAPI) {
     if (currentMode) {
       const config = MODES[currentMode];
       ctx.ui.notify(
-        `Current mode: ${config.icon} ${config.name}\n${config.description}`,
+        `Current mode: ${config.name}\n${config.description}`,
         "info",
       );
     } else {
       ctx.ui.notify("No mode active. Available modes:", "info");
+    }
+
+    const modeKeys = Object.keys(MODES);
+    if (modeKeys.length === 0) {
+      ctx.ui.notify(
+        "No modes configured. Create .pi/modes.json to define modes.",
+        "warning",
+      );
+      return;
     }
 
     const modeList = Object.entries(MODES)
@@ -94,7 +78,7 @@ export default function (pi: ExtensionAPI) {
   }
 
   pi.registerCommand("mode", {
-    description: "Set or view mode (plan, build, none, or custom)",
+    description: "Set or view mode",
     getArgumentCompletions: (prefix: string) => {
       const items = Object.entries(MODES).map(([key, config]) => ({
         value: key,
@@ -123,7 +107,7 @@ export default function (pi: ExtensionAPI) {
         updateStatus(ctx);
         const config = MODES[currentMode];
         ctx.ui.notify(
-          `Switched to ${config.icon} ${config.name} Mode\n${config.description}`,
+          `Switched to ${config.name} Mode\n${config.description}`,
           "success",
         );
         return;
@@ -147,7 +131,7 @@ export default function (pi: ExtensionAPI) {
       if (config.blockedTools.includes(event.toolName)) {
         return {
           block: true,
-          reason: `In ${config.name} mode. Run '/mode build' to make changes.`,
+          reason: `In ${config.name} mode. Switch to another mode to make changes.`,
         };
       }
     }
