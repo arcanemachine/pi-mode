@@ -150,12 +150,12 @@ export default function (pi: ExtensionAPI) {
 
       let toolInfo = "";
       if (config.allowedTools) {
-        toolInfo = `\nAllowed tools: ${config.allowedTools.join(", ")}`;
+        toolInfo = `\n\nALLOWED TOOLS: ${config.allowedTools.join(", ")}`;
       } else if (config.blockedTools) {
-        toolInfo = `\nBlocked tools: ${config.blockedTools.join(", ")}`;
+        toolInfo = `\n\nBLOCKED TOOLS: ${config.blockedTools.join(", ")}`;
       }
 
-      const modeSwitchInfo = `\nTo switch modes, ask the user to run "/mode <name>" or "/mode none" to clear the mode.`;
+      const modeSwitchInfo = `\n\nCRITICAL: You CANNOT switch modes yourself. You MUST ask the user to run "/mode <name>" or "/mode none". Do not attempt to call any tool to change modes - it will fail.`;
 
       event.systemPrompt +=
         "\n\n" +
