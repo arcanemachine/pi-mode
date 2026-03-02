@@ -80,7 +80,6 @@ Add to your `.pi/settings.json` or `~/.pi/agent/settings.json`:
       "description": "Analysis and planning only - no access to write/edit tools",
       "allowedTools": ["read"],
       "extraSystemPrompt": "You are in PLAN mode. You may analyze, research, and plan only. You cannot make file changes."
-
     },
     "safe": {
       "description": "Safe mode - no bash commands or file modifications",
@@ -102,12 +101,12 @@ Add to your `.pi/settings.json` or `~/.pi/agent/settings.json`:
 
 ### Mode Configuration Options
 
-| Field                  | Type     | Required | Description                                        |
-| ---------------------- | -------- | -------- | -------------------------------------------------- |
-| `name`                 | string   | Yes      | Display name for the mode                          |
-| `description`          | string   | Yes      | Short description shown in `/mode` list            |
-| `blockedTools`         | string[] | One of   | Block these tools, allow all others                |
-| `allowedTools`         | string[] | One of   | Allow only these tools, block all others           |
+| Field               | Type     | Required | Description                                        |
+| ------------------- | -------- | -------- | -------------------------------------------------- |
+| `name`              | string   | Yes      | Display name for the mode                          |
+| `description`       | string   | Yes      | Short description shown in `/mode` list            |
+| `blockedTools`      | string[] | One of   | Block these tools, allow all others                |
+| `allowedTools`      | string[] | One of   | Allow only these tools, block all others           |
 | `extraSystemPrompt` | string   | Yes      | Text appended to system prompt when mode is active |
 
 **Note:** Exactly one of `blockedTools` or `allowedTools` must be provided. An error is thrown if both or neither are specified.

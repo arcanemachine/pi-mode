@@ -54,7 +54,7 @@ function loadModes(): Record<string, ModeConfig> {
   return {};
 }
 
-export default function (pi: ExtensionAPI) {
+export default function(pi: ExtensionAPI) {
   const MODES = loadModes();
 
   let currentMode: Mode = null;
@@ -162,7 +162,7 @@ export default function (pi: ExtensionAPI) {
       const availableModes = getAvailableModesList();
       const modeListInfo = `\n\nAVAILABLE MODES: ${availableModes}`;
 
-      const modeSwitchInfo = `\n\nCRITICAL: You CANNOT switch modes yourself. You MUST ask the user to change the mode.`;
+      const modeSwitchInfo = `\n\nCRITICAL: You CANNOT switch modes yourself. You **MUST** ask the user to change the mode.`;
 
       event.systemPrompt +=
         "\n\n" +
