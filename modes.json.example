@@ -6,17 +6,11 @@
       "blockedTools": ["write", "edit"],
       "systemPromptAddendum": "You are in PLAN mode. Analyze, research, and plan only. Do not make file changes."
     },
-    "build": {
-      "name": "Build",
-      "description": "Implementation mode - can make changes",
-      "blockedTools": [],
-      "systemPromptAddendum": "You are in BUILD mode. Implement the plan. Make necessary file changes."
-    },
-    "review": {
-      "name": "Review",
-      "description": "Code review mode - read and analyze only",
-      "blockedTools": ["write", "edit", "bash"],
-      "systemPromptAddendum": "You are in REVIEW mode. Analyze code for bugs, security issues, and improvements. Do not make changes."
+    "safe": {
+      "name": "Safe",
+      "description": "Safe mode - read-only tools only",
+      "allowedTools": ["read", "grep", "find", "ls"],
+      "systemPromptAddendum": "You are in SAFE mode. Only read files and search. No modifications or command execution."
     }
   }
 }
