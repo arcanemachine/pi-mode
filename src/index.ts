@@ -65,6 +65,14 @@ export default function (pi: ExtensionAPI) {
 
   pi.registerCommand("mode", {
     description: "Set or view mode (plan, build, none)",
+    getArgumentCompletions: (prefix: string) => {
+      const items = [
+        { value: "plan", label: "plan — Analysis and planning (read-only)" },
+        { value: "build", label: "build — Implementation mode (can edit)" },
+        { value: "none", label: "none — Clear mode" },
+      ];
+      return items.filter((i) => i.value.startsWith(prefix));
+    },
     handler: async (args, ctx) => {
       const arg = args?.trim().toLowerCase();
 
