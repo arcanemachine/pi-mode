@@ -64,10 +64,10 @@ ln -s /workspace/projects/pi-mode/src ~/.pi/agent/extensions/pi-mode
 
 ### Visual Indicator
 
-The current mode appears in the pi footer status line:
+The current mode appears in the pi footer:
 
 ```
-/workspace/projects/my-project  session-name  12k tokens  $0.004  🔍 Plan Mode
+🔍 Plan Mode
 ```
 
 ## Development
