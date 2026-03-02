@@ -86,9 +86,9 @@ Tools added by extensions are also controlled by `blockedTools` and `allowedTool
     },
     "core": {
       "name": "Core",
-      "description": "Core tools only, no custom extensions",
+      "description": "Pi default tools only, no custom extensions",
       "allowedTools": ["read", "bash", "edit", "write"],
-      "systemPromptAddendum": "You are in CORE mode. Only core tools are available. Custom extension tools are blocked."
+      "systemPromptAddendum": "You are in CORE mode. Only pi default tools are available. Custom extension tools are blocked."
     }
   }
 }
