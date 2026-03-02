@@ -155,10 +155,13 @@ export default function (pi: ExtensionAPI) {
         toolInfo = `\nBlocked tools: ${config.blockedTools.join(", ")}`;
       }
 
+      const modeSwitchInfo = `\nTo switch modes, ask the user to run "/mode <name>" or "/mode none" to clear the mode.`;
+
       event.systemPrompt +=
         "\n\n" +
         (config.extraSystemPrompt || `You are in ${displayName} mode.`) +
-        toolInfo;
+        toolInfo +
+        modeSwitchInfo;
     }
   });
 
