@@ -123,7 +123,7 @@ Add to your `.pi/settings.json` or `~/.pi/agent/settings.json`:
 The current mode appears in the pi footer:
 
 ```
-Plan Mode
+Mode enabled: Plan
 ```
 
 ## Development

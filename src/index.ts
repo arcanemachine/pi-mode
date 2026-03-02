@@ -62,7 +62,7 @@ export default function (pi: ExtensionAPI) {
   function updateStatus(ctx: ExtensionContext) {
     if (currentMode) {
       const config = MODES[currentMode];
-      ctx.ui.setStatus("mode", `${config.name} Mode`);
+      ctx.ui.setStatus("mode", `Mode enabled: ${config.name}`);
     } else {
       ctx.ui.setStatus("mode", "");
     }
