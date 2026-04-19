@@ -13,5 +13,18 @@
   "devDependencies": {
     "@types/node": "^25.3.3",
     "typescript": "^5.9.3"
-  }
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*"
+  },
+  "peerDependenciesMeta": {
+    "@mariozechner/pi-coding-agent": {
+      "optional": true
+    }
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE.md"
+  ]
 }

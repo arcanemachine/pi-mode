@@ -31,6 +31,8 @@ cd pi-mode
 pi install /path/to/pi-mode
 ```
 
+No local `npm install` is required for normal usage.
+
 Or use a symlink for development:
 
 ```bash
